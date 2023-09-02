@@ -3,8 +3,7 @@ import './App.css';
 
 import { Main } from './pages/main';
 
-import { configureChains, createClient, goerli, mainnet, WagmiConfig } from 'wagmi';
-import { localhost } from 'wagmi/chains';
+import { configureChains, createConfig, mainnet, WagmiConfig } from 'wagmi';
 import { xdcTestnet } from './utils/xdcTestnet';
 import { xdc } from './utils/xdc';
 
@@ -13,19 +12,19 @@ import { publicProvider } from 'wagmi/providers/public';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 
-const { chains, provider, webSocketProvider } = configureChains(
-  [ xdc, xdcTestnet, mainnet, goerli, localhost],
+const { chains, publicClient } = configureChains(
+  [ xdc, xdcTestnet, mainnet],
   [publicProvider()]
 );
-const client = createClient({
+const client = createConfig({
   autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
-    new WalletConnectConnector({ chains, options: {
-    qrcode: true,
-    // version: '1',
-    //  projectId: process.env.REACT_APP_WALLET_CONNECT_ID || ''
-    }}),
+    // new WalletConnectConnector({ chains, options: {
+    // // qrcode: true,
+    // // version: '1',
+    // //  projectId: process.env.REACT_APP_WALLET_CONNECT_ID || ''
+    // }}),
     /* new InjectedConnector({
       chains,
       options: {
@@ -34,16 +33,15 @@ const client = createClient({
       },
     }), */
   ],
-  provider,
-  webSocketProvider,
+  publicClient
 });
 
-window.Buffer = window.Buffer || require('buffer').Buffer;
+// window.Buffer = window.Buffer || require('buffer').Buffer;
 
 function App() {
   return (
     <>
-      <WagmiConfig client={client}>
+      <WagmiConfig config={client}>
         <Main />
       </WagmiConfig>
     </>

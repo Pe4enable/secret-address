@@ -30,6 +30,7 @@ export function Main() {
   const explorerAddress = explorer[chain?.id || 50 || 51];
 
   return (
+   
     <section className="layout">
       <div className="content">
         <div className="header-h">
