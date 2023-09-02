@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import '@coreui/coreui/dist/css/coreui.min.css';
+import './App.css';
+
+import { Main } from './pages/main';
+
+import { configureChains, createClient, goerli, mainnet, WagmiConfig } from 'wagmi';
+import { localhost } from 'wagmi/chains';
+import { xdcTestnet } from './utils/xdcTestnet';
+import { xdc } from './utils/xdc';
+
+import { publicProvider } from 'wagmi/providers/public';
+
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+
+const { chains, provider, webSocketProvider } = configureChains(
+  [ xdc, xdcTestnet, mainnet, goerli, localhost],
+  [publicProvider()]
+);
+const client = createClient({
+  autoConnect: true,
+  connectors: [
+    new MetaMaskConnector({ chains }),
+    new WalletConnectConnector({ chains, options: {
+    qrcode: true,
+    // version: '1',
+    //  projectId: process.env.REACT_APP_WALLET_CONNECT_ID || ''
+    }}),
+    /* new InjectedConnector({
+      chains,
+      options: {
+        name: 'Injected',
+        shimDisconnect: true,
+      },
+    }), */
+  ],
+  provider,
+  webSocketProvider,
+});
+
+window.Buffer = window.Buffer || require('buffer').Buffer;
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <WagmiConfig client={client}>
+        <Main />
+      </WagmiConfig>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
