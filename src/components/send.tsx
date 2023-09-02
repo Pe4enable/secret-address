@@ -15,7 +15,7 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction
 } from 'wagmi';
-import { default as REGISTRY_ABI } from '../abi/Registry.json';
+import { VerxioPayABI} from '../abi/Registry.json';
 import { registryAddress, explorer } from '../utils/constants';
 import { calculateCrc } from '../utils/crc16';
 import useDebounce from '../utils/debounce';
@@ -59,7 +59,7 @@ export function Send() {
     config,
   } = usePrepareContractWrite({
     address: registryAddress[chain?.id || 0],
-    abi: REGISTRY_ABI,
+    abi: VerxioPayABI,
     functionName: 'publishAndSend',
     args: [
       '0x' + ephPublic?.getX().toString(16, 64),

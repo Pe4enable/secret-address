@@ -1,4 +1,4 @@
-import { default as BN } from 'bn.js';
+import { default as BN} from 'bn.js';
 import { ec as EC } from "elliptic";
 import { createContext, useState } from "react";
 

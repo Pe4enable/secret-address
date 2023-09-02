@@ -19,7 +19,7 @@ import { ec as EC } from 'elliptic';
 import { BigNumber, ethers } from 'ethers';
 import { formatEther, getAddress, keccak256 } from 'ethers/lib/utils';
 import { useAccount, useContractRead, useNetwork } from 'wagmi';
-import { default as REGISTRY_ABI } from '../abi/Registry.json';
+import { VerxioPayABI } from '../abi/Registry.json';
 import { copyTextToClipboard } from '../utils/clipboard';
 import { registryAddress, explorer } from '../utils/constants';
 import { formatEtherTruncated } from '../utils/format';
@@ -48,7 +48,7 @@ export function Withdraw() {
 
   const registryConfig = {
     address: registryAddress[chain?.id || 50 || 51],
-    abi: REGISTRY_ABI,
+    abi: VerxioPayABI,
   };
   const explorerAddress = explorer[chain?.id || 50 || 51];
 

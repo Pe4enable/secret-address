@@ -10,6 +10,7 @@ export function Network() {
   const { chain, chains } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
 
+
   if (isConnected && switchNetwork && chain) {
     const icon = networkIcons[chain.id];
 
