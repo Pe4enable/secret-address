@@ -9,7 +9,6 @@ import { useNetwork } from 'wagmi';
 import AddressProvider from '../components/address';
 import { Connect } from '../components/connect';
 import { XcryptID } from '../components/xcryptid';
-import { Network } from '../components/network';
 import { Send } from '../components/send';
 import { Withdraw } from '../components/withdraw';
 
@@ -45,8 +44,6 @@ export function Main() {
           </div>
           <div className="header-item">
             <Connect />
-
-            <Network />
           </div>
         </div>
 

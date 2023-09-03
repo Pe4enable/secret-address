@@ -20,3 +20,5 @@ export const xdcTestnet = {
     },
   },
 } as const satisfies Chain
+
+

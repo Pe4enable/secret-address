@@ -251,12 +251,12 @@ export function Send() {
                 </div>
 
                 <div className="input-container hint">
-                  <input
+                  {/* <input
                     value={`${formatEtherTruncated(balance.value)} ${
                       chain?.nativeCurrency.symbol
                     }`}
                     disabled
-                  />
+                  /> */}
                   <label>Available</label>
                 </div>
               </div>
