@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import './panes.css';
 
 import { curve, ec as EC } from 'elliptic';
-
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BigNumber, ethers } from 'ethers';
@@ -19,7 +18,7 @@ import { VerxioPayABI} from '../abi/Registry.json';
 import { registryAddress, explorer } from '../utils/constants';
 import { calculateCrc } from '../utils/crc16';
 import useDebounce from '../utils/debounce';
-import { formatEtherTruncated } from '../utils/format';
+import { Connect } from './connect';
 
 const zero = BigNumber.from(0);
 
@@ -42,7 +41,7 @@ export function Send() {
   const [sharedSecretByte, setSharedSecretByte] = useState<string>('0x00');
   const [theirID, setTheirID] = useState<string>('');
   const [ephPublic, setEphPublic] = useState<curve.base.BasePoint>();
-  const [xcryptIDError, setXcryptIDError] = useState<boolean>(false);
+  const [VerxioIDError, setVerxioIDError] = useState<boolean>(false);
   const [amountError, setAmountError] = useState<boolean>(false);
 
   const [amount, setAmount] = useState<string>('0');
@@ -67,9 +66,10 @@ export function Send() {
       '0x' + sharedSecretByte,
       debouncedAddr,
     ],
-    overrides: { value: debouncedAmount },
+    value: debouncedAmount,
     enabled: debouncedAmount.gt(zero),
   });
+  
   const { data, isError, error, write, reset } = useContractWrite(config);
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
@@ -77,20 +77,22 @@ export function Send() {
 
   const handleIDInput = (ev: React.FormEvent<HTMLInputElement>) => {
     setTheirID(ev.currentTarget.value);
-    setXcryptIDError(false);
+    setVerxioIDError(false);
     reset();
   };
 
-  const handleAmountInput = (ev: React.FormEvent<HTMLInputElement>) => {
-    setAmount(ev.currentTarget.value);
+  const handleAmountInput = (event: React.FormEvent<HTMLInputElement>) => {
+    console.log(event.currentTarget.value)
+    setAmount(event.currentTarget.value);
     setAmountError(false);
   };
+
 
   const generateNewEphKey = useCallback(() => {
     if (!theirID) return;
 
     if (theirID.at(0) !== 'X') {
-      setXcryptIDError(true);
+      setVerxioIDError(true);
       return;
     }
 
@@ -100,12 +102,12 @@ export function Send() {
       decodedID = base58.decode(_theirID);
     } catch (e) {
       console.log('Invalid base58 encoding');
-      setXcryptIDError(true);
+      setVerxioIDError(true);
       return;
     }
 
     if (decodedID.length !== 35) {
-      setXcryptIDError(true);
+      setVerxioIDError(true);
       return;
     }
 
@@ -113,7 +115,7 @@ export function Send() {
     const crc = calculateCrc(trueID);
     if (!crc.every((x, idx) => x === decodedID[33 + idx])) {
       console.log('CRC error: ' + crc + '; ' + decodedID);
-      setXcryptIDError(true);
+      setVerxioIDError(true);
       return;
     }
 
@@ -141,18 +143,18 @@ export function Send() {
       setSharedSecretByte(ss.toArray()[0].toString(16).padStart(2, '0'));
 
       console.log(
-        `Current ephemeral pubkey: ${ephKey.getPublic().encode('hex', false)}`
+        `Current ephemeral pubkey: ${ephKey.getPublic().encode('hex', true)}`
       );
     } catch (e) {
-      setXcryptIDError(true);
+      setVerxioIDError(true);
     }
   }, [theirID, ec]);
 
   useEffect(() => {
     if (!theirID) return;
 
-    if (theirID.startsWith('https://xcrypt/#')) {
-      setTheirID(theirID.replace('https://xcrypt/#', ''));
+    if (theirID.startsWith('https://verxio/#')) {
+      setTheirID(theirID.replace('https://verxio/#', ''));
     } else {
       generateNewEphKey();
     }
@@ -186,8 +188,8 @@ export function Send() {
   return (
     <div style={{ paddingTop: '1rem' }}>
       <p>
-      XDC will be sent to a secret blockchain account that will hold the XDC temporarily.
-      The user who owns the Xcrypt ID will have control over the secret account.
+      {chain?.nativeCurrency.symbol || 'Crypto'} will be sent to a secret blockchain account that will hold the {chain?.nativeCurrency.symbol || 'crypto'} temporarily.
+      The user who owns the Verxio ID will have control over the secret account.
       </p>
       <form
         className="lane"
@@ -203,24 +205,22 @@ export function Send() {
             disabled={!isConnected || isLoading}
             spellCheck="false"
             autoComplete="off"
-            placeholder="Enter receiver Xcrypt ID"
+            placeholder="Enter receiver Verxio ID"
             onChange={handleIDInput}
           />
-          <label htmlFor="xcryptID">XCRYPT ID</label>
+          <label htmlFor="xcryptID">VERXIO ID</label>
         </div>
       </form>
 
       {!isConnected && (
-        <p style={{ marginTop: '1.75rem' }}>
-          <b
-            onClick={() => {
-              window.scrollTo({ top: 0 });
-            }}
-          >
-            Connect wallet
-          </b>{' '}
-          to proceed.
-        </p>
+             <>
+  
+        <div  style={{ marginTop: '1.5rem' }}>
+        <Connect />
+        </div>
+     
+   
+        </>
       )}
       {isConnected && balance && (
         <>
@@ -232,31 +232,32 @@ export function Send() {
               }}
             >
               <div className="header-item">
-                <div className="input-container small">
-                  <input
-                    type="text"
-                    value={amount}
-                    autoComplete="off"
-                    id="amount"
-                    disabled={isLoading}
-                    style={{ textAlign: 'left' }}
-                    className={amountError ? 'error-input' : ''}
-                    placeholder="0.00"
-                    onChange={handleAmountInput}
-                  />
+              <div className="input-container small">
+                <input
+                  type="text"
+                  value={amount}
+                  autoComplete="off"
+                  id="amount"
+                  disabled={isLoading}
+                  style={{ textAlign: 'left' }}
+                  className={amountError ? 'error-input' : ''}
+                  placeholder="0.00"
+                  onChange={handleAmountInput}
+                />
 
-                  <label htmlFor="amount">
-                    Amount ({chain?.nativeCurrency.symbol})
-                  </label>
-                </div>
+                <label htmlFor="amount">
+                  Amount ({chain?.nativeCurrency.symbol})
+                </label>
+              </div>
+  
 
                 <div className="input-container hint">
-                  {/* <input
-                    value={`${formatEtherTruncated(balance.value)} ${
+                  <input
+                    value={`${Number(balance.formatted).toFixed(4)} ${
                       chain?.nativeCurrency.symbol
                     }`}
                     disabled
-                  /> */}
+                  />
                   <label>Available</label>
                 </div>
               </div>
@@ -264,7 +265,7 @@ export function Send() {
               <button
                 className="hbutton"
                 color="success"
-                disabled={!write || isLoading || amountError || xcryptIDError}
+                // disabled={!write || isLoading || amountError || VerxioIDError}
                 onClick={(e) => {
                   e.preventDefault();
                   write?.();
@@ -280,9 +281,9 @@ export function Send() {
               </button>
             </form>
           </div>
-          {xcryptIDError && (
+          {VerxioIDError && (
             <div className="lane">
-              <p className="message error">Invalid Xcrypt ID</p>
+              <p className="message error">Invalid Verxio ID</p>
             </div>
           )}
           {isSuccess && !isError && !isPrepareError && (

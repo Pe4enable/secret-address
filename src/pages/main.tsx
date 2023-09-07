@@ -8,12 +8,12 @@ import { useState } from 'react';
 import { useNetwork } from 'wagmi';
 import AddressProvider from '../components/address';
 import { Connect } from '../components/connect';
-import { XcryptID } from '../components/xcryptid';
+import { VerxioID } from '../components/verxioid';
 import { Send } from '../components/send';
 import { Withdraw } from '../components/withdraw';
-
-import LogoHover from '../svg/logo-hover.png';
-import Logo from '../svg/logo.png';
+import logo from '../../src/assets/logo.png'
+// import LogoHover from '../svg/logo-hover.png';
+// import Logo from '../svg/logo.png';
 import SendReceive from '../svg/send-receive.svg';
 import Shield from '../svg/shield.svg';
 
@@ -23,7 +23,7 @@ import './main.css';
 
 export function Main() {
   const [activeTab, setActiveTab] = useState<string>('send');
-
+  
   const { chain } = useNetwork();
   const contractAddress = registryAddress[chain?.id || 50 || 51];
   const explorerAddress = explorer[chain?.id || 50 || 51];
@@ -34,11 +34,11 @@ export function Main() {
       <div className="content">
         <div className="header-h">
           <div className="header-item">
-            <img className="logo logo-bg" src={LogoHover} alt="Xcrypt" />
+            {/* <img className="logo logo-bg" src={logo} alt="Verxio" /> */}
             <img
-              className="logo logo-default"
-              src={Logo}
-              alt="Xcrypt"
+              className="logo-default"
+              src={logo}
+              alt="Verxio"
               onClick={() => (document.location.href = '/')}
             />
           </div>
@@ -50,7 +50,7 @@ export function Main() {
         <div className="promo large-block">
           <h1>
           Introducing <span className="promo-accent">Anonymous</span> & <span className="promo-accent">Effortless</span>
-            <br /> Transfers on the {chain?.name.split(' ')[0] || 'XDC'} Network
+            <br /> {chain?.nativeCurrency.symbol || 'Crypto'} Transfers on {chain?.name.split(' ')[0] || 'any EVM'} Network
           </h1>
 
           <div className="benefits">
@@ -64,7 +64,7 @@ export function Main() {
             <div className="item">
               <img src={SendReceive} alt="" width={24} />
               <p>
-                Send and receive {chain?.nativeCurrency.symbol || 'XDC'}{' '}
+                Send and receive {chain?.nativeCurrency.symbol || 'Crypto'}{' '}
                 <strong>privately</strong>
               </p>
             </div>
@@ -72,7 +72,7 @@ export function Main() {
         </div>
 
         <AddressProvider>
-          <XcryptID />
+          <VerxioID />
 
           <div className="large-block">
             <div className="nav-tabs">
@@ -85,7 +85,7 @@ export function Main() {
                   &nbsp; Send
                 </h2>
                 <span className="super">
-                  {chain?.nativeCurrency.symbol || 'XDC'}
+                  {chain?.nativeCurrency.symbol || 'Crypto'}
                 </span>
               </div>
               <div
@@ -97,7 +97,7 @@ export function Main() {
                   &nbsp; Receive
                 </h2>
                 <span className="super">
-                  {chain?.nativeCurrency.symbol || 'XDC'}
+                  {chain?.nativeCurrency.symbol || 'Crypto'}
                 </span>
               </div>
             </div>

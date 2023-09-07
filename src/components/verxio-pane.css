@@ -55,7 +55,7 @@
 }
 
 .xcrypt-pane-header h1 {
-  color: #005faf;
+  color: #AD045E;
 }
 
 .xcrypt-pane-header .arrow {
@@ -67,7 +67,7 @@
 }
 
 .xcrypt-pane .block-wide {
-  border-left: 2px solid #005faf;
+  border-left: 2px solid #AD045E;
   box-sizing: border-box;
 
   /* Auto layout */
@@ -205,6 +205,9 @@
     font-size: 110%;
     line-height: 125%;
   }
+
+
+
 
   .xcrypt-pane .line {
     width: auto;

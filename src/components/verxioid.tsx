@@ -1,7 +1,7 @@
 import { ec as EC } from 'elliptic';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import './xcrypt-pane.css';
-
+import './verxio-pane.css';
+import { useNetwork } from 'wagmi';
 import { faCopy, faSave } from '@fortawesome/free-regular-svg-icons';
 import { faCheckCircle, faRotate } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,8 @@ import { FileUploader } from './upload';
 
 import chevronUp from '../svg/chevron-up.svg';
 
-export function XcryptID() {
+export function VerxioID() {
+  const { chain } = useNetwork();
   const ec = new EC('secp256k1');
 
   const { spendingKey, setSpendingKey } = useContext(
@@ -107,7 +108,7 @@ export function XcryptID() {
   const handleCopy = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
-      copyTextToClipboard(metaAddr ? `https://xcrypt/#${metaAddr}` : '').then(
+      copyTextToClipboard(metaAddr ? `https://verxio/#${metaAddr}`: '').then(
         () => {
           setCopied(true);
           setTimeout(() => {
@@ -126,7 +127,7 @@ export function XcryptID() {
           <div className="xcrypt-pane-header">
             <div className="header-item" style={{ alignItems: 'center' }}>
               <div className="header-item header-title">
-                <h1>Xcrypt ID</h1>
+                <h1>Verxio ID</h1>
               </div>
               <button
                 className={opened ? 'arrow' : 'arrow arrow-down'}
@@ -141,7 +142,7 @@ export function XcryptID() {
             <div className="header-item" style={{ alignItems: 'center' }}>
               <div className="block-wide">
                 <p className="label" style={{ textTransform: 'uppercase' }}>
-                  Your Xcrypt ID:
+                  Your Verxio ID:
                 </p>
                 <p className="label xcrypt-id-contracted">{metaAddr}</p>
               </div>
@@ -173,7 +174,7 @@ export function XcryptID() {
                     e.stopPropagation();
                     downloadTxtFile(
                       spendingKey.getPrivate().toString(16),
-                      `Xcrypt_${metaAddr}.txt`
+                      `Verxio_${metaAddr}.txt`
                     )();
                     setKeySaved(true);
                   }}
@@ -200,11 +201,11 @@ export function XcryptID() {
         className="xcrypt-pane-body"
         style={{ display: opened ? 'block' : 'none' }}
       >
-        <p className="block">Share the Xcrypt ID to receive XDC</p>
+        <p className="block">Share the Verxio ID to receive {chain?.nativeCurrency.symbol || 'Crypto'}</p>
         <div className="xcrypt-pane-header buttons">
           <div className="block-wide">
             <p className="label" style={{ textTransform: 'uppercase' }}>
-              Xcrypt ID:
+              Verxio ID:
             </p>
             <p className="label xcrypt-id">{metaAddr}</p>
           </div>
@@ -254,7 +255,7 @@ export function XcryptID() {
                 onClick={() => {
                   downloadTxtFile(
                     spendingKey.getPrivate().toString(16),
-                    `Xcrypt_${metaAddr}.txt`
+                    `Verxio_${metaAddr}.txt`
                   )();
                   setKeySaved(true);
                 }}
@@ -281,7 +282,7 @@ export function XcryptID() {
               display: loadError ? 'block' : 'none',
             }}
           >
-            Incorrect Xcrypt ID keyfile
+            Incorrect Verxio ID keyfile
           </div>
           <div
             className="block-wide"

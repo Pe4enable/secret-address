@@ -9,21 +9,21 @@ interface Props {
 export interface AddressContextType {
   spendingKey: EC.KeyPair | undefined;
   setSpendingKey: any;
-  xcryptPrivateKey: BN | undefined;
-  setXcryptPrivateKey: any;
+  verxioPrivateKey: BN | undefined;
+  setVerxioPrivateKey: any;
 }
 
 export const AddressContext = createContext<AddressContextType | null>(null);
 
 const AddressProvider: React.FC<Props> = ( { children }: { children: React.ReactNode } ) => {
   const [spendingKey, setSpendingKey] = useState<EC.KeyPair>();
-  const [xcryptPrivateKey, setXcryptPrivateKey] = useState<BN>();
+  const [verxioPrivateKey,  setVerxioPrivateKey] = useState<BN>();
 
   const value = {
     spendingKey,
     setSpendingKey,
-    xcryptPrivateKey,
-    setXcryptPrivateKey,
+    verxioPrivateKey,
+    setVerxioPrivateKey,
   };
 
   return <AddressContext.Provider value={value}>{children}</AddressContext.Provider>;
