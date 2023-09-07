@@ -95,7 +95,7 @@ export function Withdraw() {
   useEffect(() => {
     if (!keysCount || !spendingKey || !isConnected) return;
 
-    console.log('Effect keys, idx: ' + keysIndex);
+    // console.log('Effect keys, idx: ' + keysIndex);
 
     refetchKeys().then((x) => {
       findMatch(x.data as Array<string[]>).then(() => {
@@ -179,7 +179,7 @@ export function Withdraw() {
       })
     );
     const addrs = _addrs.filter((_y) => _y !== null);
-    console.log('Found new keys: ' + addrs.length + ' from ' + keys.length);
+    // console.log('Found new keys: ' + addrs.length + ' from ' + keys.length);
     setKeyAddrs([...keyAddrs, ...(addrs as Array<string[]>)]);
 
   };
@@ -208,15 +208,10 @@ export function Withdraw() {
     setIsSending(true);
     const bal = await fetchBalance({ address: addr });
     const key = buildPrivateKey(x, y, spendingKey);
-    console.log(key)
-
-
-        //   // Prepare the transaction
+        // Prepare the transaction
       let request = await prepareSendTransaction({
-        // account: addr,
         to: target,
         value: parseEther(bal.formatted),
-        // You can add other configuration options here as needed, such as gasPrice, nonce, etc.
       });
 
     try {
@@ -224,17 +219,16 @@ export function Withdraw() {
       const signer = new ethers.Wallet(key.toArray(undefined, 32), provider);
 
       let gasLimit = request.gas;
-      const connectedSigner = await getWalletClient({chainId: chain.id});
       const feeData = await fetchFeeData()
       const gasPrice = feeData.gasPrice
 
       let fee = gasLimit * gasPrice;
-      console.log(fee)
       /* .mul(BigNumber.from(3))
         .div(BigNumber.from(2)); */
-      console.log(
-        `Fee: ${Number(fee)}, gasLimit: ${gasLimit.toString()}, gasPrice: ${gasPrice.toString()}`
-      );
+      
+      //   console.log(
+      //   `Fee: ${Number(fee)}, gasLimit: ${gasLimit.toString()}, gasPrice: ${gasPrice.toString()}`
+      // );
 
       const originalBalance = request.value;
 
@@ -246,13 +240,15 @@ export function Withdraw() {
         gasPrice: gasPrice,
       };
       
-      console.log(
-        `Original balance: ${originalBalance}, sending: ${request.value}`
-      );
+      // console.log(
+      //   `Original balance: ${originalBalance}, sending: ${request.value}`
+      // );
 
-      console.log("Printing SIgner", signer);
-      console.log("Printing Connected Signer", connectedSigner)
-      const result = await signer.sendTransaction(request);
+      const result = await signer.sendTransaction({
+        
+        to: target,
+        value: originalBalance - fee
+      });
 
       setTxPending(result.hash);
 
@@ -271,41 +267,6 @@ export function Withdraw() {
     }
 
     setIsSending(false);
-    // try {
-    //   const provider = new StaticJsonRpcProvider(chain?.rpcUrls.public.http[0]);
-    //   const signer = new ethers.Wallet(key.toArray(undefined, 32), provider);
-  
-    //   // Prepare the transaction
-    //   const request = await prepareSendTransaction({
-    //     account: addr,
-    //     to: target,
-    //     value: parseEther(bal.formatted),
-    //     // You can add other configuration options here as needed, such as gasPrice, nonce, etc.
-    //   });
-  
-    //   // Send the transaction
-    //   const result = await sendTransaction(request);
-    //   console.log("sender address", addr)
-    //   console.log("receiver address", target)
-  
-    //   setTxPending(result.hash);
-  
-    //   // Wait for transaction confirmation
-    //   const data = await waitForTransaction({
-    //     hash: result.hash as `0x${string}`,
-    //   });
-  
-    //   setTxPending('');
-    //   setWithdrawSuccess(data.transactionHash);
-  
-    //   // Exclude address from the list
-    //   setKeyAddrs(keyAddrs.filter((p) => p[4] !== addr));
-    // } catch (e) {
-    //   setWithdrawError((e as Error).message);
-    //   setTxPending('');
-    // }
-  
-    // setIsSending(false);
   };
 
   if (!isConnected) {
@@ -332,47 +293,44 @@ export function Withdraw() {
           </div>
         )}
 
-        {keyAddrs.length > 0 && !modalVisible && (
-          <>
-            <div className="lane" style={{ marginTop: '1rem' }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
-              {keyAddrs.map((item, index) => {
-                // console.log(item)
+      {keyAddrs.length > 0 && !modalVisible && (
+        <div className="lane" style={{ marginTop: '1rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
+            {keyAddrs
+              .filter((item) => Number(item[3]) > 0) // Filter out items with balance <= 0
+              .map((item, index) => {
                 const [_x, _y, token, bal, addr] = item;
                 return (
                   <div
-                    key={index} // Using index as the key
+                    key={index}
                     style={{
                       minHeight: '1.8rem',
                       margin: '0 1rem 0.75rem 0',
                     }}
                   >
-                      <button
-                        className="hbutton"
-                        color="success"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          //
-                          setActive({
-                            x: _x,
-                            y: _y,
-                            token,
-                            addr,
-                            balance: bal,
-                          });
-                          setModalVisible(true);
-                        }}
-                      >
-                        {bal}{' '}
-                        {chain?.nativeCurrency.symbol}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </>
-        )}
+                    <button
+                      className="hbutton"
+                      color="success"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setActive({
+                          x: _x,
+                          y: _y,
+                          token,
+                          addr,
+                          balance: Number(bal),
+                        });
+                        setModalVisible(true);
+                      }}
+                    >
+                      {bal} {chain?.nativeCurrency.symbol}
+                    </button>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      )}
 
         <div className={modalVisible ? 'modal active' : 'modal'}>
           <div className="lane" style={{ marginTop: '1rem' }}>
