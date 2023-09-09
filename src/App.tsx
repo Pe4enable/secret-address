@@ -1,4 +1,3 @@
-// import '@coreui/coreui/dist/css/coreui.min.css';
 import './App.css';
 //wallet import
 import '@rainbow-me/rainbowkit/styles.css';
@@ -18,16 +17,14 @@ import {
 } from '@rainbow-me/rainbowkit/wallets';
 
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { opBNBMainnet, opBNBTestnet } from './utils/chain.ts'
 import { Main } from './pages/main';
-import { xdcTestnet } from './utils/xdcTestnet';
-import { xdc } from './utils/xdc';
 import './index.css'
 import { publicProvider } from 'wagmi/providers/public';
+import { gnosis, gnosisChiado } from 'wagmi/chains'
 
 const projectId = import.meta.env.VITE_PROJECT_ID;
 const { chains, publicClient } = configureChains(
-  [opBNBMainnet, opBNBTestnet, xdcTestnet, xdc],
+  [gnosis, gnosisChiado],
   [
     publicProvider()
   ]

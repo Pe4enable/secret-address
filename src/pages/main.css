@@ -170,9 +170,9 @@ p {
 
   /* gradient-base */
 
-  /*box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;*/
+  box-shadow: #50032c 0px 1px 4px, #4a0429 0px 0px 0px 3px;
 
-  background: linear-gradient(270deg, rgba(25, 27, 39, 0) 0%, #191b27 100%);
+  background: linear-gradient(270deg, rgba(25, 27, 39, 0) 3%, #191b27 65%);
 
   background-color: #94446E; /* Initial background color */
   transition: background-color 0.3s ease; /* Transition for smooth color change */
@@ -192,9 +192,9 @@ p {
 }
 
 .large-block:hover {
-  background-color: #10121f; /* New background color on hover */
+  background-color: #94446E; /* New background color on hover */
   /*box-shadow: 0 0 20px rgba(24, 54, 220, 0.7); /* Glowing effect */
-  box-shadow: rgba(0, 95, 175, 0.4) 5px 5px, rgba(0, 95, 175, 0.3) 10px 10px;
+  box-shadow: #620436 5px 5px, #620436 10px 10px;
 
   transform: scale(1.1); /* Enlarge the element on hover */
   transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Apply transitions for smoother animation */
@@ -325,11 +325,12 @@ p {
 }
 
 .hbutton-lnk {
-  background: none;
+  background: #f99bcd;
 
   /* accent */
 
-  color: #005faf;
+  color: #AD045E;
+  box-shadow: 0 4px 10px #620436;
 }
 
 .hbutton:active {
@@ -380,7 +381,7 @@ p {
 
   /* primary */
 
-  color: #2bbbad;
+  color: #AD045E;
 
   /* Inside auto layout */
 
@@ -390,16 +391,16 @@ p {
 }
 
 .nav-tabs .active {
-  border-bottom: 2px solid #005faf;
-  color: #005faf !important;
+  border-bottom: 2px solid #AD045E;
+  color: #AD045E !important;
 }
 
 .nav-tabs .active h2 {
-  color: #005faf !important;
+  color: #AD045E !important;
 }
 
 .nav-tabs .active .super {
-  color: #005faf !important;
+  color: #f99bcd !important;
 }
 
 .nav-tabs .tab.disabled h2,
@@ -495,20 +496,21 @@ p {
   }
 
   .nav-tabs .tab:hover h2 {
-    color: #2bbbad !important;
+    color: #f99bcd !important;
   }
 
   .nav-tabs .tab:hover .super {
-    color: #2bbbad !important;
+    color: #AD045E !important;
   }
 
   .hbutton:hover {
-    background: #2bbbad;
+    background: #620436;
   }
 
   .hbutton-lnk:hover {
-    color: #2bbbad !important;
+    color: #AD045E !important;
     background: none;
+    box-shadow: 0 4px 10px #620436;
   }
 
   .header-h .logo-default:hover {
@@ -517,12 +519,12 @@ p {
   }
 
   .hbutton:hover:disabled {
-    background: #005faf;
+    background: #92416c;
   }
 
   .hbutton-lnk:hover:disabled {
     background: none;
-    color: #e8e8e9 !important;
+    color: #f99bcd !important;
   }
 }
 

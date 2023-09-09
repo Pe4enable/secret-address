@@ -138,6 +138,8 @@ export function Withdraw() {
         const _x = parseInt(x, 16);
         const _y = parseInt(y, 16);
 
+    
+
         if (_x === 0 || _y === 0) return null;
 
         let eph;
@@ -150,10 +152,12 @@ export function Withdraw() {
 
         const _ss = spendingKey.derive(eph.getPublic());
 
+
         // early check if shared secret might be the same
         if (_ss.toArray()[0] !== parseInt(ss, 16)) return null;
 
         const hashed = ec.keyFromPrivate(keccak256(_ss.toArray()));
+        console.log(hashed)
         const pub = spendingKey
           .getPublic()
           .add(hashed.getPublic())
@@ -163,10 +167,9 @@ export function Withdraw() {
         const addr = getAddress(
           '0x' + _addr.substring(_addr.length - 40, _addr.length)
         );
-
+        
         if (token === ethers.constants.AddressZero) {
           const bal = await fetchBalance({ address: addr });
-
 
           if (bal) {
             return [x, y, token, bal.formatted, addr];
@@ -178,9 +181,12 @@ export function Withdraw() {
         return null;
       })
     );
+
     const addrs = _addrs.filter((_y) => _y !== null);
     // console.log('Found new keys: ' + addrs.length + ' from ' + keys.length);
     setKeyAddrs([...keyAddrs, ...(addrs as Array<string[]>)]);
+
+    console.log(addrs)
 
   };
 
@@ -297,7 +303,7 @@ export function Withdraw() {
         <div className="lane" style={{ marginTop: '1rem' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
             {keyAddrs
-              .filter((item) => Number(item[3]) > 0) // Filter out items with balance <= 0
+              // .filter((item) => Number(item[3]) > 0) // Filter out items with balance <= 0
               .map((item, index) => {
                 const [_x, _y, token, bal, addr] = item;
                 return (

@@ -1,4 +1,4 @@
-import { faDiscord, faGithub, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 import {
   faArrowRight,
   faArrowTurnDown
@@ -12,8 +12,6 @@ import { VerxioID } from '../components/verxioid';
 import { Send } from '../components/send';
 import { Withdraw } from '../components/withdraw';
 import logo from '../../src/assets/logo.png'
-// import LogoHover from '../svg/logo-hover.png';
-// import Logo from '../svg/logo.png';
 import SendReceive from '../svg/send-receive.svg';
 import Shield from '../svg/shield.svg';
 
@@ -25,8 +23,8 @@ export function Main() {
   const [activeTab, setActiveTab] = useState<string>('send');
   
   const { chain } = useNetwork();
-  const contractAddress = registryAddress[chain?.id || 50 || 51];
-  const explorerAddress = explorer[chain?.id || 50 || 51];
+  const contractAddress = registryAddress[chain?.id];
+  const explorerAddress = explorer[chain?.id];
 
   return (
    
