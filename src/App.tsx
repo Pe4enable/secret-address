@@ -22,7 +22,7 @@ import './index.css'
 import { publicProvider } from 'wagmi/providers/public';
 import { gnosis, gnosisChiado } from 'wagmi/chains'
 
-const projectId = import.meta.env.VITE_PROJECT_ID;
+const projectId = "274de4271228fdd69013c56274f0e688";
 const { chains, publicClient } = configureChains(
   [gnosis, gnosisChiado],
   [

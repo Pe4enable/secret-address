@@ -157,7 +157,7 @@ export function Withdraw() {
         if (_ss.toArray()[0] !== parseInt(ss, 16)) return null;
 
         const hashed = ec.keyFromPrivate(keccak256(_ss.toArray()));
-        console.log(hashed)
+        // console.log(hashed)
         const pub = spendingKey
           .getPublic()
           .add(hashed.getPublic())
@@ -186,7 +186,7 @@ export function Withdraw() {
     // console.log('Found new keys: ' + addrs.length + ' from ' + keys.length);
     setKeyAddrs([...keyAddrs, ...(addrs as Array<string[]>)]);
 
-    console.log(addrs)
+    // console.log(addrs)
 
   };
 
