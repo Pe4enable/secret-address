@@ -13,10 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   fetchBalance,
   prepareSendTransaction,
-  sendTransaction,
   fetchFeeData,
-  waitForTransaction,
-  getWalletClient 
+  waitForTransaction
 } from '@wagmi/core';
 import { ec as EC } from 'elliptic';
 import { ethers } from 'ethers';
@@ -27,7 +25,6 @@ import { VerxioPayABI } from '../abi/Registry.json';
 import { copyTextToClipboard } from '../utils/clipboard';
 import { registryAddress, explorer } from '../utils/constants';
 import { AddressContext, AddressContextType } from './address';
-import { privateKeyToAccount } from 'viem/accounts'
 
 export function Withdraw() {
   const ec = useMemo(() => {
@@ -47,7 +44,7 @@ export function Withdraw() {
   const [txPending, setTxPending] = useState<string>('');
 
   const { chain } = useNetwork();
-  const { isConnected, address, connector } = useAccount();
+  const { isConnected, address } = useAccount();
 
   const registryConfig = {
     address: registryAddress[chain?.id || 50 || 51],
