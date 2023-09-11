@@ -50,7 +50,7 @@ export function Send() {
 
   const debouncedAmount = useDebounce(amountWei, 500);
   const debouncedAddr = useDebounce(xdcAddr, 500);
-  const explorerAddress = explorer[chain?.id || 50 || 51];
+  const explorerAddress = explorer[chain?.id || 100|| 10200];
 
   const {
     isError: isPrepareError,
@@ -66,10 +66,10 @@ export function Send() {
       '0x' + sharedSecretByte,
       debouncedAddr,
     ],
-    value: debouncedAmount,
+    value: debouncedAmount.toBigInt(),
     enabled: debouncedAmount.gt(zero),
   });
-  
+
   const { data, isError, error, write, reset } = useContractWrite(config);
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
@@ -265,7 +265,7 @@ export function Send() {
               <button
                 className="hbutton"
                 color="success"
-                // disabled={!write || isLoading || amountError || VerxioIDError}
+                disabled={!write || isLoading || amountError || VerxioIDError}
                 onClick={(e) => {
                   e.preventDefault();
                   write?.();

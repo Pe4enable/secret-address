@@ -23,8 +23,8 @@ export function Main() {
   const [activeTab, setActiveTab] = useState<string>('send');
   
   const { chain } = useNetwork();
-  const contractAddress = registryAddress[chain?.id];
-  const explorerAddress = explorer[chain?.id];
+  const contractAddress = registryAddress[chain?.id || 100|| 10200];
+  const explorerAddress = explorer[chain?.id || 100|| 10200];
 
   return (
    

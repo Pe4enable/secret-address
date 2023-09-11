@@ -47,10 +47,10 @@ export function Withdraw() {
   const { isConnected, address } = useAccount();
 
   const registryConfig = {
-    address: registryAddress[chain?.id || 50 || 51],
+    address: registryAddress[chain?.id || 100|| 10200],
     abi: VerxioPayABI,
   };
-  const explorerAddress = explorer[chain?.id || 50 || 51];
+  const explorerAddress = explorer[chain?.id || 100|| 10200];
 
   const [keysCount, setKeysCount] = useState<number>(0);
   const [keysIndex, setKeysIndex] = useState<number>(0);
@@ -95,7 +95,7 @@ export function Withdraw() {
     // console.log('Effect keys, idx: ' + keysIndex);
 
     refetchKeys().then((x) => {
-      findMatch(x.data as Array<string[]>).then(() => {
+      findMatch(x.data as KeyObject[]).then(() => {
         if (keysCount > keysIndex) {
           // delay between sequential calls
           setTimeout(() => {
@@ -124,7 +124,14 @@ export function Withdraw() {
     }
   }, [targetAddr]);
 
-  const findMatch = async (keys: Array<string[]>) => {
+  interface KeyObject {
+    x: string;
+    y: string;
+    ss: string;
+    token: string;
+  }
+
+  const findMatch = async (keys: KeyObject[]) => {
     if (!spendingKey || !isConnected) return;
 
     const _addrs = await Promise.all(
@@ -164,9 +171,9 @@ export function Withdraw() {
         const addr = getAddress(
           '0x' + _addr.substring(_addr.length - 40, _addr.length)
         );
-        
+
         if (token === ethers.constants.AddressZero) {
-          const bal = await fetchBalance({ address: addr });
+          const bal = await fetchBalance({ address: `0x${addr.substring(2)}` });
 
           if (bal) {
             return [x, y, token, bal.formatted, addr];
@@ -221,9 +228,9 @@ export function Withdraw() {
       const provider = new StaticJsonRpcProvider(chain?.rpcUrls.public.http[0]);
       const signer = new ethers.Wallet(key.toArray(undefined, 32), provider);
 
-      let gasLimit = request.gas;
+      let gasLimit = request.gas!;
       const feeData = await fetchFeeData()
-      const gasPrice = feeData.gasPrice
+      const gasPrice = feeData.gasPrice!
 
       let fee = gasLimit * gasPrice;
       /* .mul(BigNumber.from(3))
@@ -233,7 +240,7 @@ export function Withdraw() {
       //   `Fee: ${Number(fee)}, gasLimit: ${gasLimit.toString()}, gasPrice: ${gasPrice.toString()}`
       // );
 
-      const originalBalance = request.value;
+      const originalBalance = request.value!;
 
       request = {
         ...request,
