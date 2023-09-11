@@ -233,13 +233,6 @@ export function Withdraw() {
       const gasPrice = feeData.gasPrice!
 
       let fee = gasLimit * gasPrice;
-      /* .mul(BigNumber.from(3))
-        .div(BigNumber.from(2)); */
-      
-      //   console.log(
-      //   `Fee: ${Number(fee)}, gasLimit: ${gasLimit.toString()}, gasPrice: ${gasPrice.toString()}`
-      // );
-
       const originalBalance = request.value!;
 
       request = {
@@ -250,9 +243,6 @@ export function Withdraw() {
         gasPrice: gasPrice,
       };
       
-      // console.log(
-      //   `Original balance: ${originalBalance}, sending: ${request.value}`
-      // );
 
       const result = await signer.sendTransaction({
         
@@ -418,7 +408,7 @@ export function Withdraw() {
                     withdraw(
                       active.x,
                       active.y,
-                      active.token,
+                      // active.token,
                       active.addr as `0x${string}`,
                       targetAddr as `0x${string}`
                     )
