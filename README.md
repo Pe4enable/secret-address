@@ -1,4 +1,5 @@
-# Verxio Protocol
+# Verxio Protocol | Receive crypto on any EVM blockchain without revealing your personal information 
+
 
 Verxio Protocol is a non-custodial solution that uses stealth addresses which enables users to receive crypto on the Gnosis Blockchain without revealing receiver's real address.
 
