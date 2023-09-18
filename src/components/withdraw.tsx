@@ -221,7 +221,7 @@ export function Withdraw() {
         // Prepare the transaction
       let request = await prepareSendTransaction({
         to: target,
-        value: parseEther(bal.formatted),
+        // value: parseEther(bal.formatted) ,
       });
 
     try {
@@ -233,7 +233,7 @@ export function Withdraw() {
       const gasPrice = feeData.gasPrice!
 
       let fee = gasLimit * gasPrice;
-      const originalBalance = request.value!;
+      const originalBalance = parseEther(bal.formatted);
 
       request = {
         ...request,
@@ -243,7 +243,6 @@ export function Withdraw() {
         gasPrice: gasPrice,
       };
       
-
       const result = await signer.sendTransaction({
         
         to: target,
