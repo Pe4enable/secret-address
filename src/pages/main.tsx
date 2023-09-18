@@ -140,7 +140,7 @@ export function Main() {
               className="pane"
               style={{ display: activeTab === 'spend' ? 'block' : 'none' }}
             >
-              <p>Spend your crypto anywhere with a Gnosis Pay powered Visa Debit Card!</p>
+              <p>Spend your crypto anywhere with Gnosis Pay powered Visa Debit Card!</p>
               <button 
               className="hbutton hbutton-lnk header-item" 
               onClick={() => window.location.href = 'https://gnosispay.com/app/signup'}
