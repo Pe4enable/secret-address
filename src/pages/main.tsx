@@ -4,6 +4,7 @@ import {
   faArrowTurnDown
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { BiBot } from 'react-icons/bi';
 import { useState } from 'react';
 import { useNetwork } from 'wagmi';
 import AddressProvider from '../components/address';
@@ -40,7 +41,15 @@ export function Main() {
               onClick={() => (document.location.href = '/')}
             />
           </div>
-          <div className="header-item">
+            <button 
+            className="hbutton hbutton-lnk header-item" 
+            style={{ marginLeft: '-120px' }}>
+            <span> 
+            VERXIO AI
+              <BiBot />  
+                </span>
+              </button>
+          <div className="header-item ">
             <Connect />
           </div>
         </div>
@@ -98,6 +107,19 @@ export function Main() {
                   {chain?.nativeCurrency.symbol || 'Crypto'}
                 </span>
               </div>
+
+              <div
+                className={activeTab === 'spend' ? 'tab active' : 'tab'}
+                onClick={() => setActiveTab('spend')}
+              >
+                <h2>
+                  <FontAwesomeIcon icon={faArrowTurnDown} flip="horizontal" />
+                  &nbsp; Spend
+                </h2>
+                <span className="super" style={{color: '#f99bcd'}}>
+                Gnosis Pay
+                </span>
+              </div>
             </div>
 
             <div
@@ -114,6 +136,21 @@ export function Main() {
             >
               <Withdraw />
             </div>
+            <div
+              className="pane"
+              style={{ display: activeTab === 'spend' ? 'block' : 'none' }}
+            >
+              <p>Spend your crypto anywhere with a Gnosis Pay powered Visa Debit Card!</p>
+              <button 
+              className="hbutton hbutton-lnk header-item" 
+              onClick={() => window.location.href = 'https://gnosispay.com/app/signup'}
+              >
+                <span> 
+              Get Started
+                </span>
+              </button>
+            </div>
+
           </div>
         </AddressProvider>
 
