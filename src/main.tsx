@@ -12,23 +12,55 @@ import {
 } from '@rainbow-me/rainbowkit';
 
 import { publicProvider } from 'wagmi/providers/public'
+import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+import {
+  metaMaskWallet,
+  trustWallet,
+  injectedWallet,
+  rainbowWallet,
+  walletConnectWallet,
+  coinbaseWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
+const projectId = "274de4271228fdd69013c56274f0e688";
+const { chains, publicClient } = configureChains(
   [gnosis, gnosisChiado],
   [
     publicProvider()
   ]
 );
 
-const config = createConfig({
-  publicClient,
-  webSocketPublicClient,
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      metaMaskWallet({ projectId, chains }),
+      trustWallet({ projectId, chains }),
+    ]
+  },
+  {
+    groupName: 'Others',
+    wallets: [
+      coinbaseWallet({ chains, 
+        appName: 'Spacetar | A Community Empowering Mental Well-Being' }),
+      injectedWallet({ chains }),
+      rainbowWallet({ projectId, chains }),
+      walletConnectWallet({ projectId, chains }),
+    ],
+  },
+]);
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient
 })
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-    <WagmiConfig config={config}>
+    <WagmiConfig config={wagmiConfig}>
     <RainbowKitProvider 
       theme={lightTheme({
         accentColor: '#1570ef',
