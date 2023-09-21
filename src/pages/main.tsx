@@ -157,7 +157,7 @@ export function Main() {
         </AddressProvider>
 
         <div className="footer">
-          <a
+          {/* <a
             href="https://youtu.be/zeQw4JHy00o"
             rel="noreferrer"
             target="_blank"
@@ -166,7 +166,7 @@ export function Main() {
               Demo video &nbsp;
               <FontAwesomeIcon icon={faYoutube} />
             </span>
-          </a>
+          </a> */}
           <a
             href={`https://${explorerAddress}/address/${contractAddress}`}
             style={{ flexGrow: 1 }}
