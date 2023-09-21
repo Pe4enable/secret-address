@@ -101,6 +101,15 @@ The Verxio Protocol solution leverages these cryptographic methods to create a s
 ### 💪 Deployed Contract Addresses (Gnosis Chiado Testnet)
 - StealthAddress Contract: [0x4838854e5150E4345Fb4Ae837E9FcCa40D51F3Fe](https://gnosis-chiado.blockscout.com/address/0x4838854e5150E4345Fb4Ae837E9FcCa40D51F3Fe)
 
+### 💪 Demo Link
+- https://verxio-finance.vercel.app/
+
+### 💪 Transactions
+- https://gnosis-chiado.blockscout.com/tx/0x629a6e045796e32f46bd39ef6dd72d1dc09bd81b5d7bd8a4531f1d6c7f686f6e
+- https://gnosis-chiado.blockscout.com/tx/0xed88ca9ac033e7c8bad60df13190077c7bd0d4875857d10288280f5e4534aea9
+- https://gnosis-chiado.blockscout.com/tx/0xaaa7d038ffe5e5dd3f510d57ad238c5a8cc2866f696271393988b4302a0a545a
+- https://gnosis-chiado.blockscout.com/tx/0x9e817dd4bbacfa63d78217410cd3d22557a463053a592ff091d45710b3e242ae
+
 
 ### 💻 Deploying the Verxio Protocol on local machine
 
