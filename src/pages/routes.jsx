@@ -9,8 +9,8 @@ const PageRoutes = () => {
     <>
     <Routes>
         <Route path='/' element={<Main/>}/>
-        <Route path='/verxio' element={<VerxioAI/>} >
-        </Route>
+        <Route path='/verxio' element={<VerxioAI/>} />
+        
     </Routes>
     </>
   )

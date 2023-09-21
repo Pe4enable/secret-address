@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import OpenAI from 'openai'
-import './VerxioAI.css'; 
+import OpenAI from 'openai';
+import "./verxio-ai.css";
 import send_icon from '../assets/send_icon.png'
 import { BiBot } from 'react-icons/bi';
 import chatbot_logo from '../assets/chatbot_logo.png'
