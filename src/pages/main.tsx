@@ -1,4 +1,4 @@
-import { faYoutube } from '@fortawesome/free-brands-svg-icons';
+// import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 import {
   faArrowRight,
   faArrowTurnDown
