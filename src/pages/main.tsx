@@ -15,7 +15,7 @@ import { Withdraw } from '../components/withdraw';
 import logo from '../../src/assets/logo.png'
 import SendReceive from '../svg/send-receive.svg';
 import Shield from '../svg/shield.svg';
-
+import { Link } from 'react-router-dom';
 import { registryAddress, explorer } from '../utils/constants';
 
 import './main.css';
@@ -41,6 +41,7 @@ export function Main() {
               onClick={() => (document.location.href = '/')}
             />
           </div>
+          <Link to="/verxio">
             <button 
             className="hbutton hbutton-lnk header-item" 
             style={{ marginLeft: '-120px' }}>
@@ -49,6 +50,7 @@ export function Main() {
               <BiBot />  
                 </span>
               </button>
+              </Link>
           <div className="header-item ">
             <Connect />
           </div>
@@ -140,7 +142,7 @@ export function Main() {
               className="pane"
               style={{ display: activeTab === 'spend' ? 'block' : 'none' }}
             >
-              <p>Spend your crypto anywhere with a Gnosis Pay powered Visa Debit Card!</p>
+              <p>Spend your crypto anywhere with Gnosis Pay powered Visa Debit Card!</p>
               <button 
               className="hbutton hbutton-lnk header-item" 
               onClick={() => window.location.href = 'https://gnosispay.com/app/signup'}
@@ -185,3 +187,4 @@ export function Main() {
     </section>
   );
 }
+export default Main;

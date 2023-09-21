@@ -91,7 +91,7 @@ export function Send() {
   const generateNewEphKey = useCallback(() => {
     if (!theirID) return;
 
-    if (theirID.at(0) !== 'X') {
+    if (theirID.at(0) !== 'V') {
       setVerxioIDError(true);
       return;
     }

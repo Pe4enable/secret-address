@@ -76,7 +76,7 @@ export function VerxioID() {
     addr.set(data);
     addr.set(crc, data.length);
 
-    setMetaAddr('X' + base58.encode(addr));
+    setMetaAddr('V' + base58.encode(addr));
   }, [spendingKey]);
 
   const handleFile = async (f: File) => {
