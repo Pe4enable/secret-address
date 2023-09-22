@@ -1,7 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import './panes.css';
-
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import {
   faArrowRight,
@@ -235,20 +234,23 @@ export function Withdraw() {
       let fee = gasLimit * gasPrice;
       const originalBalance = parseEther(bal.formatted);
 
-      request = {
-        ...request,
-        // account: addr,
-        to: target,
-        value: originalBalance - fee,
-        gasPrice: gasPrice,
-      };
-      
+      // request = {
+      //   ...request,
+      //   // account: addr,
+      //   to: target,
+      //   value: originalBalance - fee,
+      //   gasPrice: gasPrice,
+      // };
+
+      const sendValue =  originalBalance - fee
+     
       const result = await signer.sendTransaction({
         
         to: target,
-        value: originalBalance - fee
+        value: sendValue - fee
       });
 
+      
       setTxPending(result.hash);
 
       const data = await waitForTransaction({
